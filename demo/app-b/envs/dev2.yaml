@@ -1,0 +1,2 @@
+# 部署标记:文件存在即部署到 dev2
+enabled: true
