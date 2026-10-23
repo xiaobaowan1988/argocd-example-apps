@@ -1,6 +1,0 @@
-# 占位名:由 ApplicationSet 通过 source.kustomize.namespace 改成 <env>-env-<应用名>,
-# 这样 Namespace 属于 Application 管理的资源,删除应用时随之删除。
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: placeholder
