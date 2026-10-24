@@ -1,12 +1,5 @@
-# 在集群里由 kaniko 构建:源码编译成静态二进制,再拷进 scratch 镜像。
-# VERSION 由流水线通过 --build-arg 传入(运行编号),编进二进制,服务会在响应里返回它。
-FROM mirror.gcr.io/library/golang:1.24-alpine AS build
-ARG VERSION=dev
-WORKDIR /src
-COPY . .
-RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w -X main.version=${VERSION}" -o /out/api .
-
+# 单阶段:二进制由构建脚本(ci/build.sh)先编译好放在 dist/,这里只负责打镜像。
 FROM scratch
-COPY --from=build /out/api /api
+COPY dist/api /api
 USER 65532:65532
 ENTRYPOINT ["/api"]

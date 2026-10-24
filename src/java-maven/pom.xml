@@ -8,7 +8,22 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation><activeByDefault>true</activeByDefault></activation>
+      <properties><app.profile>dev</app.profile><app.greeting>hello from dev</app.greeting></properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties><app.profile>prod</app.profile><app.greeting>hello from prod</app.greeting></properties>
+    </profile>
+  </profiles>
   <build>
+    <finalName>app</finalName>
+    <resources>
+      <resource><directory>src/main/resources</directory><filtering>true</filtering></resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

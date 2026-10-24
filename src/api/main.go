@@ -9,14 +9,17 @@ import (
 )
 
 // 构建时用 -ldflags "-X main.version=v1" 注入;同一份代码构建一次,在各环境用不同 tag 部署。
-var version = "dev"
+var (
+	version = "dev"
+	profile = "default" // 同样由构建脚本通过 -X main.profile=$PROFILE 注入
+)
 
 func main() {
 	host, _ := os.Hostname()
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"service": "api", "version": version, "pod": host})
+		json.NewEncoder(w).Encode(map[string]string{"service": "api", "version": version, "profile": profile, "pod": host})
 	})
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok")) })
 	log.Printf("api %s listening on :8080", version)
