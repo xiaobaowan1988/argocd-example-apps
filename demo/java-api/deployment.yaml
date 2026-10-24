@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: java-api}
+  template:
+    metadata:
+      labels: {app: java-api}
+    spec:
+      containers:
+        - name: java-api
+          image: java-api:placeholder   # 由流水线部署步骤覆盖
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8080}
+            initialDelaySeconds: 3
+          resources:
+            requests: {cpu: 20m, memory: 96Mi}
