@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: web}
+  template:
+    metadata:
+      labels: {app: web}
+    spec:
+      containers:
+        - name: web
+          image: mirror.gcr.io/library/nginx:alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
