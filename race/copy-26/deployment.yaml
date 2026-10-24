@@ -1,0 +1,20 @@
+# 实验用:Pod 永远调度不上(nodeSelector 不存在),不占资源,但 spec.replicas 可观测
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: web}
+  template:
+    metadata:
+      labels: {app: web}
+    spec:
+      nodeSelector:
+        race-experiment/no-such-node: "true"
+      containers:
+        - name: web
+          image: registry.k8s.io/pause:3.10.2
+          resources:
+            requests: {cpu: 1m, memory: 1Mi}
